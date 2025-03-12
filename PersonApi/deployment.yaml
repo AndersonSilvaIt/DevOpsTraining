@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personapi-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: personapi
+  template:
+    metadata:
+      labels:
+        app: personapi
+    spec:
+      containers:
+      - name: personapi
+        image: person-api-1:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
