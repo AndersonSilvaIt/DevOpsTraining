@@ -21,6 +21,7 @@
 | kubectl describe pod <nome-do-pod> | Usado para ver detalhes do Pod| Kubernets|
 |kubectl logs <nome-do-pod> | Usado para ver os logs do Pod| Kubernets |
 | kubectl scale deployment personapi-deployment --replicas=3| Usado para escalar o número de réplicas| Kubernets|
+|kubectl get service -o wide| Usado para obter a porta do software | Kubernets |
 
 <br>
 
