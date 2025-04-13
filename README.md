@@ -22,6 +22,10 @@
 |kubectl logs <nome-do-pod> | Usado para ver os logs do Pod| Kubernets |
 | kubectl scale deployment personapi-deployment --replicas=3| Usado para escalar o número de réplicas| Kubernets|
 |kubectl get service -o wide| Usado para obter a porta do software | Kubernets |
+|kubectl delete pods --all | Deleta todos os Pods | Kubernets|
+|kubectl delete services --all| Deletea todos os services| Kubernets |
+|kubectl delete deployments --all| Deleta todos os deployments|
+
 
 <br>
 
