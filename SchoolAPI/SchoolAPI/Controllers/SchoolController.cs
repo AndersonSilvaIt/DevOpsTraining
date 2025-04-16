@@ -28,6 +28,7 @@ namespace SchoolAPI.Controllers
                        new StudentVM { Id = Guid.NewGuid(), Name = "Maria Oliveira", Age = 22, Course = "Direito", Score = 91 },
                        new StudentVM { Id = Guid.NewGuid(), Name = "Carlos Santos", Age = 19, Course = "Administração", Score = 76 },
                        new StudentVM { Id = Guid.NewGuid(), Name = "Ana Souza", Age = 21, Course = "Medicina", Score = 89 },
+                       new StudentVM { Id = Guid.NewGuid(), Name = "Pedro Lima", Age = 23, Course = "Arquitetura", Score = 68 },
                        new StudentVM { Id = Guid.NewGuid(), Name = "Pedro Lima", Age = 23, Course = "Arquitetura", Score = 68 }
                    };
         }
