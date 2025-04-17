@@ -41,6 +41,7 @@ namespace SchoolAPI.Controllers
                        new TeacherVM { Id = Guid.NewGuid(), Name = "Dra. Helena", Course = "Biologia", Salary = 9500.00m },
                        new TeacherVM { Id = Guid.NewGuid(), Name = "Sr. Ricardo", Course = "História", Salary = 7200.75m },
                        new TeacherVM { Id = Guid.NewGuid(), Name = "Profa. Juliana", Course = "Física", Salary = 8800.00m },
+                       new TeacherVM { Id = Guid.NewGuid(), Name = "Dr. Eduardo", Course = "Química", Salary = 9100.25m },
                        new TeacherVM { Id = Guid.NewGuid(), Name = "Dr. Eduardo", Course = "Química", Salary = 9100.25m }
                    };
         }
