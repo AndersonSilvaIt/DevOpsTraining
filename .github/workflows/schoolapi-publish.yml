@@ -4,10 +4,11 @@ name: CI/CD SchoolAPI
 
 on:
   pull_request:
-    types: [closed]        # dispara quando um PR é fechado
-    branches: [main]       # contra a branch main
+    types: [closed]          # dispara quando um PR é fechado
+    branches: [main]         # contra a branch main
     paths:
-      - 'SchoolAPI/**'     # somente mudanças em SchoolAPI/
+      - 'SchoolAPI/**'       # qualquer mudança dentro de SchoolAPI/
+      - '.github/workflows/schoolapi-publish.yml'  # ou nesta definição de workflow
 
 jobs:
   build-and-push:
