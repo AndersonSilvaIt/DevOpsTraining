@@ -7,7 +7,7 @@ on:
     types: [closed]        # Dispara quando um PR é fechado
     branches: [main]       # contra a branch main
     paths:
-      - 'SchoolAPI/**'     # somente se houve mudanças em SchoolAPI/
+      - 'SchoolAPI/**'     # somente se houver mudanças em SchoolAPI/
 
 jobs:
   build-and-push:
@@ -43,8 +43,21 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Pull latest image & restart container
+        shell: pwsh
         run: |
-          docker pull $IMAGE_NAME
-          docker stop apischool-container || true
-          docker rm apischool-container || true
-          docker run -d --name apischool-container -p 80:80 $IMAGE_NAME
+          # Puxa a imagem mais recente
+          docker pull $env:IMAGE_NAME
+
+          # Verifica se há um container existente com esse nome
+          $existing = docker ps -aq -f name=schoolapi-container
+          if ($existing) {
+            Write-Host "Stopping and removing existing container..."
+            docker stop $existing
+            docker rm $existing
+          } else {
+            Write-Host "No existing 'schoolapi-container' found."
+          }
+
+          # Inicia o container com a nova imagem
+          Write-Host "Starting new container..."
+          docker run -d --name schoolapi-container -p 80:80 $env:IMAGE_NAME
