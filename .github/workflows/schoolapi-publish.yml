@@ -1,16 +1,20 @@
-name: Publish SchoolAPI Docker Image
+# .github/workflows/schoolapi-ci-cd.yml
+
+name: CI/CD SchoolAPI
 
 on:
   pull_request:
-    types: [closed]          # Dispara quando um PR é fechado
-    branches: [main]         # ...contra a branch main
+    types: [closed]        # Dispara quando um PR é fechado
+    branches: [main]       # contra a branch main
     paths:
-      - 'SchoolAPI/**'       # Só se houver mudanças em SchoolAPI/
+      - 'SchoolAPI/**'     # somente se houve mudanças em SchoolAPI/
 
 jobs:
-  publish-image:
+  build-and-push:
     if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/apischool:latest
 
     steps:
       - name: Checkout code
@@ -22,9 +26,25 @@ jobs:
             | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        # Aponta ao diretório que contém o Dockerfile
         working-directory: SchoolAPI
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/apischool:latest .
+        run: docker build -t $IMAGE_NAME .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/apischool:latest
+        run: docker push $IMAGE_NAME
+
+  deploy-container:
+    needs: build-and-push
+    runs-on: [self-hosted, Windows, X64]
+    env:
+      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/apischool:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Pull latest image & restart container
+        run: |
+          docker pull $IMAGE_NAME
+          docker stop apischool-container || true
+          docker rm apischool-container || true
+          docker run -d --name apischool-container -p 80:80 $IMAGE_NAME
