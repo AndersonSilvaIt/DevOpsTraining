@@ -30,7 +30,6 @@ namespace SchoolAPI.Controllers
                        new StudentVM { Id = Guid.NewGuid(), Name = "Ana Souza", Age = 21, Course = "Medicina", Score = 89 },
                        new StudentVM { Id = Guid.NewGuid(), Name = "Pedro Lima", Age = 23, Course = "Arquitetura", Score = 68 }
                    };
-                   
         }
 
         private IEnumerable<TeacherVM> GetMockTeachers()
