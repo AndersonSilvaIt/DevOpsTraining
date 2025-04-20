@@ -60,4 +60,4 @@ jobs:
           }
 
           Write-Host "Starting new container..."
-          docker run -d --name schoolapi-container -p 80:80 $env:IMAGE_NAME
+          docker run -d --name schoolapi-container -p 8085:80 $env:IMAGE_NAME
