@@ -4,17 +4,17 @@ name: CI/CD SchoolAPI
 
 on:
   pull_request:
-    types: [closed]        # Dispara quando um PR é fechado
+    types: [closed]        # dispara quando um PR é fechado
     branches: [main]       # contra a branch main
     paths:
-      - 'SchoolAPI/**'     # somente se houver mudanças em SchoolAPI/
+      - 'SchoolAPI/**'     # somente mudanças em SchoolAPI/
 
 jobs:
   build-and-push:
     if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/apischool:latest
+      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/schoolapi:latest
 
     steps:
       - name: Checkout code
@@ -36,28 +36,27 @@ jobs:
     needs: build-and-push
     runs-on: [self-hosted, Windows, X64]
     env:
-      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/apischool:latest
+      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/schoolapi:latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Pull latest image & restart container
-        shell: pwsh
+      - name: Pull & restart container
+        shell: powershell
         run: |
-          # Puxa a imagem mais recente
+          Write-Host "Pulling image $env:IMAGE_NAME"
           docker pull $env:IMAGE_NAME
 
-          # Verifica se há um container existente com esse nome
-          $existing = docker ps -aq -f name=schoolapi-container
-          if ($existing) {
-            Write-Host "Stopping and removing existing container..."
-            docker stop $existing
-            docker rm $existing
-          } else {
-            Write-Host "No existing 'schoolapi-container' found."
+          if (docker ps -q -f name=schoolapi-container) {
+            Write-Host "Stopping existing container..."
+            docker stop schoolapi-container
+            Write-Host "Removing existing container..."
+            docker rm schoolapi-container
+          }
+          else {
+            Write-Host "No existing container found."
           }
 
-          # Inicia o container com a nova imagem
           Write-Host "Starting new container..."
           docker run -d --name schoolapi-container -p 80:80 $env:IMAGE_NAME
